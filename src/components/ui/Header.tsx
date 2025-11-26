@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <motion.header
-      className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-sm z-50"
+      className="fixed top-0 w-full backdrop-blur-md bg-white/10 border-b border-white/10 z-50"
       variants={{
         visible: { y: 0 },
         hidden: { y: "-100%" },
@@ -32,17 +32,27 @@ export default function Header() {
       <nav className="container mx-auto px-4 py-4">
         <ul className="flex gap-6 justify-end">
           <li>
-            <a href="#about" className="text-gray-300 hover:text-white">
+            <a href="#about" className="text-gray-200 hover:text-cyan-400 transition-colors font-medium">
               About
             </a>
           </li>
           <li>
-            <a href="#projects" className="text-gray-300 hover:text-white">
+            <a href="#experience" className="text-gray-200 hover:text-cyan-400 transition-colors font-medium">
+              Experience
+            </a>
+          </li>
+          <li>
+            <a href="#certifications" className="text-gray-200 hover:text-cyan-400 transition-colors font-medium">
+              Certifications
+            </a>
+          </li>
+          <li>
+            <a href="#projects" className="text-gray-200 hover:text-cyan-400 transition-colors font-medium">
               Projects
             </a>
           </li>
           <li>
-            <a href="#contact" className="text-gray-300 hover:text-white">
+            <a href="#contact" className="text-gray-200 hover:text-cyan-400 transition-colors font-medium">
               Contact
             </a>
           </li>

@@ -16,14 +16,14 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
     variant: "primary" | "secondary" = "primary"
   ) => {
     const baseStyles =
-      "px-4 py-2 rounded-md font-medium transition-colors duration-200";
+      "px-4 py-2 rounded-full font-medium transition-all duration-200";
     const styles =
       variant === "primary"
-        ? `${baseStyles} bg-blue-600 text-white hover:bg-blue-700`
-        : `${baseStyles} bg-gray-700 text-gray-200 hover:bg-gray-600`;
+        ? `${baseStyles} bg-gradient-to-r from-cyan-500 to-purple-600 text-white hover:shadow-lg hover:shadow-purple-500/50 hover:scale-105`
+        : `${baseStyles} bg-white/10 text-gray-200 hover:bg-white/20 backdrop-blur-sm border border-white/20`;
 
     return (
-      <a href={href} className={styles}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={styles}>
         {label}
       </a>
     );
@@ -31,9 +31,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <motion.article
-      className="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-shadow duration-300 border border-gray-700"
+      className="backdrop-blur-md bg-white/10 rounded-2xl overflow-hidden border border-white/20 hover:border-purple-400/50 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20"
       whileHover={{
-        scale: 1.02,
+        y: -5,
         transition: { duration: 0.2 },
       }}
       initial={{ opacity: 0, y: 20 }}
@@ -52,13 +52,14 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           priority={false}
           quality={85}
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
       </div>
 
       {/* Content Container */}
       <div className="p-6">
         <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
 
-        <p className="text-gray-300 mb-4 overflow-hidden max-h-[4.5rem]">
+        <p className="text-gray-200 mb-4 overflow-hidden max-h-[4.5rem] leading-relaxed">
           {project.description}
         </p>
 
@@ -67,14 +68,14 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="px-3 py-1 bg-gray-700 text-gray-200 rounded-full text-sm font-medium"
+              className="px-3 py-1 bg-white/5 text-gray-200 rounded-full text-sm font-medium border border-white/10 backdrop-blur-sm"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        {renderLink("https://github.com/Ataa-UrRasool/", "View Project")}
+        {project.githubUrl && renderLink(project.githubUrl, "View Project")}
       </div>
     </motion.article>
   );
