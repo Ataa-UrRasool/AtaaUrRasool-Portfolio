@@ -1,7 +1,6 @@
 "use client";
 
 import { FC } from "react";
-// import Link from "next/link";
 import { motion } from "framer-motion";
 import FadeIn from "../ui/FadeIn";
 import { Download } from "lucide-react";
@@ -16,13 +15,14 @@ const ContactSection: FC = () => {
   };
 
   return (
-    <footer id="contact" className="bg-gray-800 text-white py-12">
+    <footer id="contact" className="py-20 relative">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-8">
+            <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 text-transparent bg-clip-text">
               Get In Touch
             </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mb-12"></div>
           </FadeIn>
 
           {/* Resume Download Button */}
@@ -33,15 +33,14 @@ const ContactSection: FC = () => {
             viewport={{ once: true }}
           >
             <motion.button
-              className="group flex items-center gap-2 mx-auto px-6 py-3 bg-blue-600 
-                         rounded-full font-medium hover:bg-blue-700 transition-colors"
+              className="group flex items-center gap-2 mx-auto px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 
+                         rounded-full font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => window.open("/resume@AtaaUrRasool.pdf", "_blank")}
             >
               <span>Download Resume</span>
               <motion.div
-                className="p-1 bg-blue-500 rounded-full"
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
               >
@@ -59,20 +58,20 @@ const ContactSection: FC = () => {
             transition={{ delay: 0.2 }}
           >
             <div className="flex items-center justify-center gap-2">
-              <span className="font-medium">Email:</span>
+              <span className="font-medium text-gray-200">Email:</span>
               <a
                 href={`mailto:${contactInfo.email}`}
-                className="text-blue-400 hover:text-blue-300 transition-colors"
+                className="text-cyan-400 hover:text-cyan-300 transition-colors"
               >
                 {contactInfo.email}
               </a>
             </div>
 
             <div className="flex items-center justify-center gap-2">
-              <span className="font-medium">Phone:</span>
+              <span className="font-medium text-gray-200">Phone:</span>
               <a
                 href={`tel:${contactInfo.phone}`}
-                className="text-blue-400 hover:text-blue-300 transition-colors"
+                className="text-cyan-400 hover:text-cyan-300 transition-colors"
               >
                 {contactInfo.phone}
               </a>
@@ -114,8 +113,8 @@ const SocialLink: FC<SocialLinkProps> = ({ href, label }) => {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="px-4 py-2 rounded-md bg-gray-700 hover:bg-gray-600 
-                 transition-colors duration-200"
+      className="px-4 py-2 rounded-full backdrop-blur-md bg-white/10 hover:bg-white/20 border border-white/20 hover:border-cyan-400/50
+                 transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/20"
     >
       {label}
     </a>
