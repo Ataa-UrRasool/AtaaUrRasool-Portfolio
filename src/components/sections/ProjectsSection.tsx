@@ -1,58 +1,178 @@
+"use client";
+
+import { useState } from "react";
 import { Project } from "@/types/project";
 import ProjectCard from "../ui/ProjectCard";
+import FadeIn from "../ui/FadeIn";
+import { motion } from "framer-motion";
 
 const projects: Project[] = [
   {
     id: 1,
-    title: "CodeReview: AI-Powered Code Review Platform",
+    title: "DASPER – AI-Powered Building Damage Assessment",
     description:
-      "An AI-powered code review platform using LangChain and OpenAI API. Automates code analysis and provides intelligent suggestions for code quality improvements through multi-agent systems.",
-    technologies: ["Python", "FastAPI", "LangChain", "React", "OpenAI API", "Tailwind CSS"],
-    imageUrl: "/codeReviewer.png",
+      "Production-ready AI platform for rapid building damage assessment during disasters. Custom CNN model with EfficientNet-B4, computer vision pipelines, and cross-platform mobile app supporting offline field usage. Reduces assessment time from weeks to minutes.",
+    technologies: ["React Native", "Expo", "Flask", "PyTorch", "Python", "OpenCV", "MongoDB", "Firebase"],
+    imageUrl: "/dasper.png",
     githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "AI",
+    featured: true,
   },
   {
     id: 2,
-    title: "BankEasy",
+    title: "CodeReview: AI-Powered Platform",
     description:
-      "A full-stack banking application built with Spring Boot and React, featuring distinct modules for Admin, Customer, and Employee operations. Implements microservices architecture and secure JWT authentication.",
-    technologies: ["Java", "Spring Boot", "MySQL", "React", "JPA", "REST APIs"],
-    imageUrl: "/BankEasy.jpg",
+      "AI-powered code review platform using LangChain and OpenAI API for intelligent code analysis.",
+    technologies: ["Python", "FastAPI", "LangChain", "React", "OpenAI"],
+    imageUrl: "/codeReviewer.png",
     githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "AI",
+    featured: true,
   },
   {
     id: 3,
-    title: "Pulse - Hospital Management",
+    title: "BankEasy",
     description:
-      "A comprehensive hospital management system built with JavaFX, featuring real-time synchronization and CRUD operations. Implements GRASP design patterns for maintainable architecture.",
-    technologies: ["Java", "JavaFX", "MySQL", "Scene Builder"],
-    imageUrl: "/hospital-ms.jpeg",
+      "Full-stack banking app with Spring Boot and React, featuring microservices architecture.",
+    technologies: ["Java", "Spring Boot", "MySQL", "React", "JPA"],
+    imageUrl: "/BankEasy.jpg",
     githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Full-Stack",
+    featured: true,
   },
   {
     id: 4,
+    title: "Pulse - Hospital Management",
+    description:
+      "Comprehensive hospital management system with real-time synchronization and CRUD operations.",
+    technologies: ["Java", "JavaFX", "MySQL", "Scene Builder"],
+    imageUrl: "/hospital-ms.jpeg",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Full-Stack",
+  },
+  {
+    id: 5,
     title: "CafeBytes",
     description:
-      "A cafe point of sale system with distinct modules for Manager, Employee, and Guest. Features real-time database management and complex SQL queries for efficient data handling.",
-    technologies: ["C#", "WinForms", "SQL Server", "N-tier Architecture"],
+      "Cafe POS system with modules for Manager, Employee, and Guest using N-tier architecture.",
+    technologies: ["C#", "WinForms", "SQL Server"],
     imageUrl: "/cafe-ms.jpeg",
     githubUrl: "https://github.com/Ataa-UrRasool/CafeBytes",
+    category: "Backend",
   },
+  {
+    id: 6,
+    title: "JetNotes – Simple Notes App",
+    description:
+      "Minimalist notes application built with Kotlin and Jetpack Compose. Includes ROOM database, Hilt DI, MVVM, LiveData, Coroutines, and structured DAO interactions.",
+    technologies: ["Kotlin", "Jetpack Compose", "ROOM", "Hilt", "MVVM", "Coroutines"],
+    imageUrl: "/jetNotes.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Frontend",
+  },
+  {
+    id: 7,
+    title: "MoviesApp – Android App",
+    description:
+      "Android app using Kotlin & Jetpack Compose with NavController, Coil for images, and runtime permissions. Practiced navigation and UI rendering.",
+    technologies: ["Kotlin", "Jetpack Compose", "Coil", "Android"],
+    imageUrl: "/moviesApp.jpg",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Frontend",
+  },
+  {
+    id: 8,
+    title: "Instagram UI Clone – Android App",
+    description:
+      "Instagram UI replica built using Kotlin and Jetpack Compose M3. Includes splash screens, popups, and UI layout fundamentals.",
+    technologies: ["Kotlin", "Jetpack Compose", "Material 3", "Android Studio"],
+    imageUrl: "/instaClone.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Frontend",
+  },
+  {
+    id: 9,
+    title: "WhatsApp UI Clone – Android App",
+    description:
+      "WhatsApp UI clone using Kotlin and Jetpack Compose Material 3 with reusable components and navigation flows.",
+    technologies: ["Kotlin", "Jetpack Compose", "Material 3", "Android Studio"],
+    imageUrl: "/whatsappClone.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Frontend",
+  },
+  {
+    id: 10,
+    title: "Khaabay – Food Website",
+    description:
+      "Custom 5-page food website built using HTML, CSS, JS, and Bootstrap 4 with Login/Signup flow and responsive design.",
+    technologies: ["HTML5", "CSS", "JavaScript", "Bootstrap"],
+    imageUrl: "/khabaay.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Frontend",
+  },
+  {
+    id: 11,
+    title: "Portfolio Website",
+    description:
+      "Personal portfolio built with React, Bootstrap, SASS, Parallax scrolling, and Email.js for automated email handling.",
+    technologies: ["React", "Bootstrap", "SASS", "HTML5", "CSS", "JavaScript"],
+    imageUrl: "/portfolioWeb.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "Frontend",
+  }
+
 ];
 
+type FilterOption = "All" | "Full-Stack" | "Backend" | "AI" | "Frontend";
+
 export default function ProjectsSection() {
+  const [filter, setFilter] = useState<FilterOption>("All");
+
+  const categories: FilterOption[] = ["All", "Full-Stack", "Backend", "AI", "Frontend"];
+
+  const filteredProjects =
+    filter === "All"
+      ? projects
+      : projects.filter((project) => project.category === filter);
+
   return (
     <section id="projects" className="py-20 relative">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-4 text-center bg-gradient-to-r from-cyan-400 to-purple-400 text-transparent bg-clip-text">
-          My Projects
-        </h2>
-        <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mb-12"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+        <FadeIn>
+          <h2 className="text-5xl font-heading font-bold text-center mb-4 gradient-text">
+            Featured Projects
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-12" />
+        </FadeIn>
+
+        {/* Filter buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {categories.map((category) => (
+            <motion.button
+              key={category}
+              onClick={() => setFilter(category)}
+              className={`px-6 py-2 rounded-full font-medium text-sm transition-all ${
+                filter === category
+                  ? "bg-gradient-to-r from-primary to-secondary text-white shadow-glow"
+                  : "glass-card text-gray-300 hover:text-white"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {category}
+            </motion.button>
           ))}
         </div>
+
+        {/* Projects grid */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+          layout
+        >
+          {filteredProjects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
+          ))}
+        </motion.div>
       </div>
     </section>
   );

@@ -6,4 +6,7 @@ export interface Project {
   imageUrl: string;
   githubUrl?: string;
   liveUrl?: string;
+  category: "Full-Stack" | "Backend" | "AI" | "Frontend";
+  featured?: boolean;
 }
+
