@@ -1,172 +1,230 @@
 "use client";
 
-import { FC } from "react";
-import { motion } from "framer-motion";
+import { FC, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FadeIn from "../ui/FadeIn";
 import { Experience } from "@/types/experience";
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 
 const experiences: Experience[] = [
-    {
-        id: 1,
-        title: "Junior Backend Developer",
-        company: "SharkStack",
-        employmentType: "Full-time",
-        startDate: "Apr 2025",
-        endDate: "Present",
-        location: "Lahore, Punjab, Pakistan",
-        locationType: "Remote",
-        current: true,
-        description: [
-            "Designed and maintained scalable RESTful APIs using Node.js and Express.js",
-            "Deployed and managed infrastructure on AWS using EC2, S3, and Cloudflare R2, with AWS CLI for command-line operations",
-            "Configured Nginx for hosting management, reverse proxy, SSL termination, and load balancing of backend services",
-            "Orchestrated server-side tasks with Temporal workflows, enabling reliable distributed background processing",
-            "Integrated LLM via OpenAI, Claude, and for data parsing, contextual response generation, and workflow automation",
-            "Implemented secure JWT-based authentication, email flows, and Stripe payment processing",
-            "Built a real-time chat system with Socket.io and collaborated with frontend for seamless integration",
-            "Authored clear documentation, promoted clean code practices, and participated in daily scrums for team alignment",
-        ],
-        skills: ["Node.js", "Express.js", "Cloudflare R2", "Nginx", "Temporal", "OpenAI", "Claude", "LLM Integration", "MongoDB", "PostgreSQL", "JWT", "Socket.io", "Stripe"],
-    },
-    {
-        id: 2,
-        title: "Full Stack Developer",
-        company: "Buzz Solutions",
-        employmentType: "Contract",
-        startDate: "Nov 2024",
-        endDate: "Mar 2025",
-        location: "Islamabad, Pakistan",
-        locationType: "Hybrid",
-        description: [
-            "Developed a Progressive Web Application (PWA) using HTML, CSS, and JavaScript for the frontend and Node.js, Express.js, and MongoDB for the backend",
-            "Implemented role-based access control for Admin, Silver, and Gold users, each with specific permissions and limitations",
-            "Managed user authentication and session handling using JWT tokens and authentication IDs for secure access",
-            "Designed and optimized RESTful APIs to handle user interactions, data management, and role-based restrictions",
-            "Ensured PWA performance and responsiveness, making it installable and accessible across multiple devices",
-            "Offline functionality using service workers and IndexedDB for a smoother PWA experience",
-        ],
-        skills: ["Server Side Programming", "Progressive Web Applications (PWAs)"],
-    },
-    {
-        id: 3,
-        title: "Back End Developer",
-        company: "DSPORTSHUB",
-        employmentType: "Internship",
-        startDate: "Jun 2024",
-        endDate: "Aug 2024",
-        location: "Islamabad, Islamabad, Pakistan",
-        locationType: "Hybrid",
-        description: [
-            "Developed and maintained backend APIs using JavaScript, Node.js, and Express.js, integrating with a React frontend",
-            "Enhanced the existing MySQL database by adding new tables and columns to support new features",
-            "Utilized transactions for efficient database interactions and ensured optimal performance through API testing with Postman and MySQL Bench",
-            "Implemented JWT-based authorization, email verification, and session control to secure user authentication across multiple application modules",
-            "Integrated existing projects into new backend architecture to improve functionality and scalability",
-        ],
-        skills: ["Back-End Web Development", "Server Side Programming"],
-    },
+  {
+    id: 1,
+    title: "Junior Backend Developer",
+    company: "SharkStack",
+    employmentType: "Full-time",
+    startDate: "Apr 2025",
+    endDate: "Oct 2025",
+    location: "Lahore, Punjab, Pakistan",
+    locationType: "Remote",
+    current: false,
+    description: [
+      "Designed scalable RESTful APIs with Node.js & Express.js",
+      "Deployed infrastructure on AWS with EC2, S3, Cloudflare R2",
+      "Configured Nginx for hosting and load balancing",
+      "Implemented Temporal workflows for distributed processing",
+      "Integrated LLM via OpenAI & Claude for automation",
+      "Built real-time chat with Socket.io",
+    ],
+    skills: [
+      "Node.js",
+      "Express.js",
+      "AWS",
+      "Nginx",
+      "Temporal",
+      "OpenAI",
+      "MongoDB",
+      "Socket.io",
+    ],
+  },
+  {
+    id: 2,
+    title: "Full Stack Developer",
+    company: "Buzz Solutions",
+    employmentType: "Contract",
+    startDate: "Nov 2024",
+    endDate: "Mar 2025",
+    location: "Islamabad, Pakistan",
+    locationType: "Hybrid",
+    description: [
+      "Developed Progressive Web App with modern stack",
+      "Implemented role-based access control system",
+      "Managed JWT authentication and sessions",
+      "Designed optimized RESTful APIs",
+    ],
+    skills: ["PWA", "Node.js", "Express.js", "MongoDB", "JWT"],
+  },
+  {
+    id: 3,
+    title: "Back End Developer",
+    company: "DSPORTSHUB",
+    employmentType: "Internship",
+    startDate: "Jun 2024",
+    endDate: "Aug 2024",
+    location: "Islamabad, Pakistan",
+    locationType: "Hybrid",
+    description: [
+      "Developed backend APIs with Node.js & Express.js",
+      "Enhanced MySQL database with new features",
+      "Implemented JWT-based authorization system",
+      "Integrated projects into new architecture",
+    ],
+    skills: ["Node.js", "Express.js", "MySQL", "JWT"],
+  },
 ];
 
 const ExperienceSection: FC = () => {
-    return (
-        <section id="experience" className="py-20 relative">
-            <div className="container mx-auto px-4">
-                <FadeIn>
-                    <h2 className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 text-transparent bg-clip-text">
-                        Experience
-                    </h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-purple-600 mx-auto mb-12"></div>
-                </FadeIn>
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
-                <motion.div
-                    className="max-w-4xl mx-auto space-y-8"
-                    variants={{
-                        hidden: { opacity: 0 },
-                        show: {
-                            opacity: 1,
-                            transition: {
-                                staggerChildren: 0.2,
-                            },
-                        },
-                    }}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                >
-                    {experiences.map((exp) => (
-                        <ExperienceCard key={exp.id} experience={exp} />
-                    ))}
-                </motion.div>
-            </div>
-        </section>
-    );
+  return (
+    <section id="experience" className="py-20 relative">
+      <div className="container mx-auto px-4">
+        <FadeIn>
+          <h2 className="text-5xl font-heading font-bold text-center mb-4 gradient-text">
+            Experience
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-16" />
+        </FadeIn>
+
+        {/* Timeline */}
+        <div className="max-w-5xl mx-auto relative">
+          {/* Vertical line */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-primary via-secondary to-accent hidden md:block" />
+
+          {experiences.map((exp, index) => (
+            <ExperienceCard
+              key={exp.id}
+              experience={exp}
+              index={index}
+              isExpanded={expandedId === exp.id}
+              onToggle={() =>
+                setExpandedId(expandedId === exp.id ? null : exp.id)
+              }
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 interface ExperienceCardProps {
-    experience: Experience;
+  experience: Experience;
+  index: number;
+  isExpanded: boolean;
+  onToggle: () => void;
 }
 
-const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
-    return (
-        <motion.div
-            className="backdrop-blur-md bg-white/10 rounded-2xl p-6 border border-white/20 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20"
-            variants={{
-                hidden: { opacity: 0, x: -20 },
-                show: { opacity: 1, x: 0 },
-            }}
-            whileHover={{ x: 5 }}
-        >
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-2xl font-bold text-white">{experience.title}</h3>
-                        {experience.current && (
-                            <span className="px-3 py-1 bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xs font-medium rounded-full">
-                                Current
-                            </span>
-                        )}
-                    </div>
-                    <p className="text-xl text-gray-200 font-semibold mb-2">
-                        {experience.company} · {experience.employmentType}
-                    </p>
+const ExperienceCard: FC<ExperienceCardProps> = ({
+  experience,
+  index,
+  isExpanded,
+  onToggle,
+}) => {
+  const isEven = index % 2 === 0;
 
-                    <div className="flex flex-wrap gap-4 text-gray-300 text-sm">
-                        <div className="flex items-center gap-1">
-                            <Calendar size={16} className="text-cyan-400" />
-                            <span>{experience.startDate} - {experience.endDate}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <MapPin size={16} className="text-purple-400" />
-                            <span>{experience.location} · {experience.locationType}</span>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className="relative mb-12 md:mb-16">
+      {/* Timeline dot */}
+      <motion.div
+        className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-primary to-secondary shadow-glow z-10 hidden md:block"
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+      >
+        {experience.current && (
+          <motion.div
+            className="absolute inset-0 rounded-full bg-secondary"
+            animate={{ scale: [1, 1.5, 1], opacity: [1, 0, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        )}
+      </motion.div>
+
+      {/* Card */}
+      <motion.div
+        className={`glass-card rounded-2xl p-6 hover:border-primary/50 transition-all cursor-pointer md:w-[calc(50%-2rem)] ${
+          isEven ? "md:ml-auto md:text-left" : "md:mr-auto md:text-left"
+        }`}
+        initial={{ opacity: 0, x: isEven ? 50 : -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+        whileHover={{ y: -5 }}
+        onClick={onToggle}
+      >
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <h3 className="text-xl font-heading font-bold text-white">
+                {experience.title}
+              </h3>
+              {experience.current && (
+                <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-medium rounded-full animate-pulse-glow">
+                  Current
+                </span>
+              )}
             </div>
+            <p className="text-lg text-gray-200 font-semibold">
+              {experience.company} · {experience.employmentType}
+            </p>
+          </div>
+          <button className="text-secondary">
+            {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
+        </div>
 
-            <ul className="space-y-2 mb-4">
-                {experience.description.map((desc, index) => (
-                    <li key={index} className="text-gray-200 text-sm flex gap-2">
-                        <span className="text-cyan-400 mt-1">•</span>
-                        <span>{desc}</span>
-                    </li>
+        <div className="flex flex-wrap gap-3 text-gray-300 text-sm mb-4">
+          <div className="flex items-center gap-1">
+            <Calendar size={16} className="text-secondary" />
+            <span>
+              {experience.startDate} - {experience.endDate}
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <MapPin size={16} className="text-primary" />
+            <span>{experience.locationType}</span>
+          </div>
+        </div>
+
+        {/* Collapsible description */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <ul className="space-y-2 mb-4">
+                {experience.description.map((desc, idx) => (
+                  <li key={idx} className="text-gray-300 text-sm flex gap-2">
+                    <span className="text-secondary mt-1">•</span>
+                    <span>{desc}</span>
+                  </li>
                 ))}
-            </ul>
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-            {experience.skills && experience.skills.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-white/10">
-                    {experience.skills.map((skill, index) => (
-                        <span
-                            key={index}
-                            className="px-3 py-1 bg-white/5 text-gray-200 rounded-full text-xs font-medium border border-white/10 backdrop-blur-sm"
-                        >
-                            {skill}
-                        </span>
-                    ))}
-                </div>
-            )}
-        </motion.div>
-    );
+        {/* Skills */}
+        {experience.skills && experience.skills.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-3 border-t border-white/10">
+            {experience.skills.map((skill) => (
+              <span
+                key={skill}
+                className="px-3 py-1 bg-primary/10 text-gray-200 rounded-full text-xs border border-primary/30 hover:border-primary transition-colors"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        )}
+      </motion.div>
+    </div>
+  );
 };
 
 export default ExperienceSection;
