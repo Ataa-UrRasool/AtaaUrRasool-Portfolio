@@ -29,9 +29,9 @@ export default function ParticleBackground() {
       density: number;
       color: string;
 
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+      constructor(canvasWidth: number, canvasHeight: number) {
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
         this.size = Math.random() * 2 + 1;
         this.baseX = this.x;
         this.baseY = this.y;
@@ -79,14 +79,15 @@ export default function ParticleBackground() {
     }
 
     function init() {
+      if (!canvas) return;
       particles.length = 0;
       for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+        particles.push(new Particle(canvas.width, canvas.height));
       }
     }
 
     function animate() {
-      if (!ctx) return;
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       for (let i = 0; i < particles.length; i++) {
@@ -126,6 +127,7 @@ export default function ParticleBackground() {
     };
 
     const handleResize = () => {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       init();
