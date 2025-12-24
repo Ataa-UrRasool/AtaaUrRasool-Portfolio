@@ -6,7 +6,6 @@ import AboutSection from "@/components/sections/AboutSections";
 import ContactSection from "@/components/sections/ContactSection";
 import CertificationsSection from "@/components/sections/CertificationsSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
-import SkillsSection from "@/components/sections/SkillsSection";
 import ParticleBackground from "@/components/ui/ParticleBackground";
 import FloatingShapes from "@/components/ui/FloatingShapes";
 import AnimatedText from "@/components/ui/AnimatedText";
