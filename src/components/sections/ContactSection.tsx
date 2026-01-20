@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import FadeIn from "../ui/FadeIn";
-import { Download, Mail, Phone, MapPin, Github, Linkedin, Instagram, Copy, Check } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Instagram, Copy, Check } from "lucide-react";
 
 const ContactSection: FC = () => {
   const [emailCopied, setEmailCopied] = useState(false);
