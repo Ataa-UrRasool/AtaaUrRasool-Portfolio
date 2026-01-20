@@ -9,7 +9,7 @@ import { MapPin, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 const experiences: Experience[] = [
   {
     id: 1,
-    title: "Junior Backend Developer",
+    title: "Backend Developer",
     company: "SharkStack",
     employmentType: "Full-time",
     startDate: "Apr 2025",

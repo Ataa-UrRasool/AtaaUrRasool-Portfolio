@@ -123,7 +123,7 @@ const ContactSection: FC = () => {
           </div>
 
           {/* Download Resume Button */}
-          <motion.div
+          {/* <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -145,7 +145,6 @@ const ContactSection: FC = () => {
                 <Download size={20} />
               </motion.div>
               
-              {/* Ripple effect */}
               <motion.div
                 className="absolute inset-0 bg-white/20 rounded-full"
                 initial={{ scale: 0, opacity: 1 }}
@@ -153,7 +152,7 @@ const ContactSection: FC = () => {
                 transition={{ duration: 0.5 }}
               />
             </motion.button>
-          </motion.div>
+          </motion.div> */}
 
           {/* Social Links */}
           <motion.div
