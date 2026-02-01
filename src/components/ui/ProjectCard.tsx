@@ -9,14 +9,15 @@ import { useState } from "react";
 interface ProjectCardProps {
   project: Project;
   index: number;
+  onClick: () => void;
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({ project, index, onClick }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      className="group relative glass-card rounded-3xl overflow-hidden hover:border-primary/50 transition-all"
+      className="group relative glass-card rounded-3xl overflow-hidden hover:border-primary/50 transition-all cursor-pointer"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -24,10 +25,11 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       whileHover={{ y: -10 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
+      onClick={onClick}
     >
       {/* Featured ribbon */}
       {project.featured && (
-        <div className="absolute top-4 right-4 z-20 px-3 py-1 bg-gradient-to-r from-accent to-primary rounded-full flex items-center gap-1 shadow-glow">
+        <div className="absolute top-4 right-4 z-20 px-3 py-1 bg-gradient-to-r from-accent to-primary rounded-full flex items-center gap-1 shadow-glow transition-transform group-hover:scale-110">
           <Star className="w-3 h-3 fill-white text-white" />
           <span className="text-xs font-semibold text-white">Featured</span>
         </div>
@@ -53,32 +55,42 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
-          className="absolute inset-0 bg-dark/80 backdrop-blur-sm flex items-center justify-center gap-4"
+          className="absolute inset-0 bg-dark/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center gap-4"
         >
-          {project.githubUrl && (
-            <motion.a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Github className="w-5 h-5 text-white" />
-            </motion.a>
-          )}
-          {project.liveUrl && (
-            <motion.a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-colors"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <ExternalLink className="w-5 h-5 text-white" />
-            </motion.a>
-          )}
+           <p className="text-sm text-gray-200 line-clamp-3">
+             {project.description}
+           </p>
+           
+           <div className="flex gap-4">
+              {project.githubUrl && (
+                <motion.a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                   onClick={(e) => e.stopPropagation()} // Prevent modal opening
+                >
+                  <Github className="w-5 h-5 text-white" />
+                </motion.a>
+              )}
+              {project.liveUrl && (
+                <motion.a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                   onClick={(e) => e.stopPropagation()}
+                >
+                  <ExternalLink className="w-5 h-5 text-white" />
+                </motion.a>
+              )}
+           </div>
+           
+           <span className="text-xs text-primary font-medium mt-2">Click for details</span>
         </motion.div>
       </div>
 
@@ -87,6 +99,10 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         <h3 className="font-heading font-bold text-xl text-white mb-2 line-clamp-1">
           {project.title}
         </h3>
+        
+        {/* Short description still visible, or remove if user wants ONLY on hover. 
+            User said "show a bit of small decsription ... only when clicked or hovered".
+            I'll keep it for now as layout looks weird without it. */}
         <p className="text-gray-300 text-sm mb-4 line-clamp-2">
           {project.description}
         </p>

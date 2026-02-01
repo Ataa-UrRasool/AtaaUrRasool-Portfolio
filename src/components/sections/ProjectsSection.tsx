@@ -4,9 +4,55 @@ import { useState } from "react";
 import { Project } from "@/types/project";
 import ProjectCard from "../ui/ProjectCard";
 import FadeIn from "../ui/FadeIn";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import ProjectModal from "../ui/ProjectModal";
 
 const projects: Project[] = [
+  {
+    id: 12,
+    title: "PaperPal",
+    description:
+      "A production-ready, full-stack AI platform designed to automate academic research, literature review, and knowledge synthesis. Seamlessly integrates multi-agent workflows with a modern web and mobile interface.",
+    technologies: ["Python", "FastAPI", "React", "LangChain", "PostgreSQL", "Docker", "Gemini API"],
+    imageUrl: "/paperpal.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "AI",
+    featured: true,
+    period: "Jan 2026 - Jan 2026",
+    features: [
+      "Multi-Agent Research System using LangGraph for autonomous planning and reporting.",
+      "Intelligent Literature Search integrating Arxiv/Semantic Scholar with PDF extraction.",
+      "Advanced RAG Pipeline with ChromaDB and Context-Aware Synthesis.",
+      "Full-Stack Architecture (React + FastAPI + PostgreSQL).",
+      "Native Android Companion App built with Kotlin."
+    ],
+    highlights: [
+      "Built a state-machine–based agent workflow with LangGraph.",
+      "Optimized large-PDF processing with async extraction.",
+      "Implemented dual-provider LLM fallback for high availability."
+    ]
+  },
+  {
+    id: 13,
+    title: "Voice AI Assistant",
+    description:
+      "A production-ready, voice-enabled AI assistant designed to provide accurate, real-time responses to school-related queries through natural speech interaction using RAG and Multi-Agent reasoning.",
+    technologies: ["Python", "React", "FastAPI", "Web Speech API", "LangChain", "RAG"],
+    imageUrl: "/voice-ai.png",
+    githubUrl: "https://github.com/Ataa-UrRasool/",
+    category: "AI",
+    featured: true,
+    period: "Jan 2026 - Jan 2026",
+    features: [
+      "Real-time speech-to-text (STT) and text-to-speech (TTS) via Web Speech API.",
+      "Multi-Agent RAG System for intent classification and document retrieval.",
+      "Context-Aware multi-turn conversational capabilities."
+    ],
+    highlights: [
+      "Architected independent modular components for scalable development.",
+      "Optimized chunking and semantic retrieval for low-latency responses."
+    ]
+  },
   {
     id: 1,
     title: "DASPER – AI-Powered Building Damage Assessment",
@@ -127,6 +173,7 @@ type FilterOption = "All" | "Full-Stack" | "Backend" | "AI" | "Frontend";
 
 export default function ProjectsSection() {
   const [filter, setFilter] = useState<FilterOption>("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const categories: FilterOption[] = ["All", "Full-Stack", "Backend", "AI", "Frontend"];
 
@@ -170,10 +217,24 @@ export default function ProjectsSection() {
           layout
         >
           {filteredProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              index={index} 
+              onClick={() => setSelectedProject(project)}
+            />
           ))}
         </motion.div>
       </div>
+      
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={() => setSelectedProject(null)} 
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

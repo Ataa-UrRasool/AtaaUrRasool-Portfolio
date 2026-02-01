@@ -8,5 +8,7 @@ export interface Project {
   liveUrl?: string;
   category: "Full-Stack" | "Backend" | "AI" | "Frontend";
   featured?: boolean;
+  features?: string[];
+  highlights?: string[];
+  period?: string;
 }
-
