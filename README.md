@@ -1,17 +1,32 @@
-This is a [Next.js](https://nextjs.org) project.
+# /> hello, world
 
-## Getting Started
+> minimal · dark · grid-textured · terminal-flavored
 
-First, run the development server:
+Built with **Next.js** · **TypeScript** · **Tailwind CSS** · IBM Plex fonts
+
+---
+
+## commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install      # install deps
+pnpm dev          # localhost:3000
+pnpm build        # production build
+pnpm start        # serve production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
+
+## customizing
+
+Everything — name, bio, experience, projects, skills, certifications, contact — lives in one file:
+
+```ts
+data/portfolio.config.ts
+```
+
+Edit that file. That's it.
+
+---
+
+built by **[Ataa Ur Rasool💞](https://linkedin.com/in/ataa-urrasool)** — software engineer crafting backends, cloud systems, and AI. 
